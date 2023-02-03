@@ -1,0 +1,18 @@
+
+
+.AppSidebar {
+  height: 100%;
+  .app-logo {
+    text-align: center;
+    display: inline-flex !important;
+    margin:10px auto !important;
+  }
+  .sidebar-title{
+    margin:20px auto 10px auto !important;
+  }
+  .user-avatar {
+    left: 0;
+    right: 0;
+  }
+  
+}

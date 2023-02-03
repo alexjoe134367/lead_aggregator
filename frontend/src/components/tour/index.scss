@@ -1,0 +1,29 @@
+
+
+.button.dark{
+    z-index: 9999;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+.btn {
+    background-color: #4caf50; /* Green */
+    color: white;
+    padding: 8px 24px;
+    display: inline-block;
+    border-radius: 4px;
+    margin-right: 10px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn-info {
+    background-color: #e7e7e7;
+    color: white;
+  }
+  .btn-success {
+    background-color: orange;
+  }
+  .paragraph {
+    padding: 100px;
+  }

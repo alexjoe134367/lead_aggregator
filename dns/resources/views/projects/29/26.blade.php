@@ -1,0 +1,1 @@
+<html><head><title>{{ $title ? $title : "" }}</title><meta name="description" content="{{ $description ? $description : "" }}"></meta><style>* { box-sizing: border-box; } body {margin: 0;}#iz1b{height:350px;width:615px;}</style></head><body><body><video allowfullscreen="allowfullscreen" id="iz1b" src="img/video2.webm" controls="controls"></video></body></body></html>
