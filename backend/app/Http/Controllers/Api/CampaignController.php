@@ -102,7 +102,7 @@ class CampaignController extends Controller
                    $action->scheduleLeadAction($lead);
                }
            }
-           $redirect_to = null;
+            $redirect_to = null;
             if(isset($_POST["redirect_to"])){
                     $redirect_to = $_POST["redirect_to"];
                     if($redirect_to !== null){
@@ -110,6 +110,7 @@ class CampaignController extends Controller
                         exit();      
                     }
             }
+           
            return $lead;
        } catch (Exception $exception) {
            \DB::rollBack();

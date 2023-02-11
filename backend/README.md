@@ -19,6 +19,7 @@ $ php artisan passport:keys --force
 
 ````
 ###COPY APP KEY to .env.dev or .env.prod
+$ composer require "swiftmailer/swiftmailer:^6.0"
 ````bash
 APP_CLIENT_ID=2
 APP_CLIENT_SECRET=gjlU21LYRB64wXHTdM8WZ8BFaqEB3hHzBs5KvYCp

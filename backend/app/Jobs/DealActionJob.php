@@ -5,7 +5,10 @@ namespace App\Jobs;
 use App\Models\DealAction;
 use App\Models\Lead;
 use App\Models\LeadActionHistory;
+use App\Models\AgencyCompany;
 use App\Models\LeadStatus;
+use App\Models\User;
+use App\Services\MailService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -76,10 +79,16 @@ class DealActionJob implements ShouldQueue
     public function executeCommand(DealAction $dealAction, Lead $lead) {
         switch ($dealAction->type) {
             case DealAction::TYPE_EMAIL_MESSAGE: {
-                \Artisan::call("send:email-notification", [
-                    'leadId' => $lead->id,
-                    'dealActionId' => $dealAction->id,
-                ]);
+                $agency_company = AgencyCompany::where('id', $lead->agency_company_id)->first();
+                $company = User::where('id', $agency_company->company_id);
+                try {
+                    $result = MailService::sendUserMail($company, $dealAction->object->subject, $dealAction->object->message);                                
+                } catch (\Exception $exception) {
+                    \Artisan::call("send:email-notification", [
+                        'leadId' => $lead->id,
+                        'dealActionId' => $dealAction->id,
+                    ]);
+                }
                 break;
             }
             case DealAction::TYPE_SMS_MESSAGE: {

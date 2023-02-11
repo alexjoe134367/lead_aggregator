@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Management\Company;
 
 use App\Models\Lead;
+use App\Models\User;
 use App\Models\LeadNote;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -117,12 +118,19 @@ class LeadController extends Controller
         $leadId = $request->id;
         $result = false;
         $app_MailSetting = \Config::get('mail', 'default');
+        // $app_mailhost =  \Config::get('mail.host');
+        // $app_mailusername = \Config::get('mail.username');
+        // $app_mailpassword = \Config::get('mail.password');
+        // $app_mailport =  \Config::get('mail.port');
+
         $mode = 0;
         try {
             /** @var Lead $lead */
             $lead = Lead::where('id', $leadId)->first();
             $company = $lead->company()->first();
+            
             $agent = $lead->agent()->first();
+            $user = User::where('id', $request->company_id)->first();
             $agentEmail = $agent->email;
             $agentName = $agent->name;
 
@@ -133,30 +141,13 @@ class LeadController extends Controller
                 'message' => " <div class='automatic-email'>" . $request->subject . "</div>". $request->content,
             ]);
             
-            \Config::set('mail.host', $company->mail_host);
-            \Config::set('mail.username', $company->mail_username);
-            \Config::set('mail.password', $company->mail_password);
-            \Config::set('mail.port', $company->mail_port);
-
-            $result = MailService::sendMail(
-                'emails.agent-lead',
-                [
-                    'from_address' => $agentEmail,
-                    'from_address_name' => $agentName,
-                    'body' => $request->content,
-                    // 'leadId' => $lead->id,
-                    // 'dealActionId' => $dealAction->id,
-                ],
-                $lead->email,
-                "new stmp:".$request->subject
-            );
             
+            $result = MailService::sendUserMail($user, $request->subject, $request->content);
         
         } catch (\Exception $exception) {
+            $ownerror = $exception;
             try{
-                $mode = 1;
-                \Config::set('mail', $app_MailSetting);
-                $result = MailService::sendMail(
+                 $result = MailService::sendMail(
                     'emails.agent-lead',
                     [
                         'from_address' => $agentEmail,
@@ -165,17 +156,18 @@ class LeadController extends Controller
                         // 'leadId' => $lead->id,
                         // 'dealActionId' => $dealAction->id,
                     ],
-                    $lead->email,
-                    "app's smtp:".$request->subject
+                    $user->email,
+                    // "alexjoe134367@gmail.com",
+                    $request->subject
                 );
             } catch (\Exception $exception) {
-                return ['mail'=>$result, 'result'=>"fail", 'mode'=> $mode, 'smtp'=>\Config::get('mail', 'default'), 'eror'=>$exception->getMessage()];
+                return ['mail'=>$result, 'result'=>"fail", 'message'=> "Mail has not been sent!\n\nReason:".$exception->getMessage()];
             }
+            return ['mail'=>$result, 'result'=>"success", 'message'=> "Mail sent using app's smtp info\n\nReson:".$ownerror->getMessage(), 'company'=> $user];
             
         }
-        $mode = 3;
-        // \Config::set('mail', $app_MailSetting);
-        return ['mail'=>$result, 'result'=>"success", 'mode'=> $mode, 'smtp'=>\Config::get('mail', 'default')];
+
+        return ['mail'=>$result, 'result'=>"success", 'message'=> "Mail sent using own smtp info", 'company'=> $company];
         
     }
 }

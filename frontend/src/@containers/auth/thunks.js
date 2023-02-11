@@ -141,3 +141,30 @@ export const logout = () => {
     dispatch(removeSessionToken());
   };
 };
+
+export const registerAgency = (name, email, password, cocode) => async (dispatch, getState) => {
+  try {
+    console.log(name, email, password, cocode);
+
+     const { data } = await api.post('/v1/create/agency', {
+      name,
+      email,
+      password,
+      cocode
+    });
+    
+    // const temp = data.res;
+    
+    if (data.result === true){
+      await dispatch(sendMessage('New Agency Account Created! Please Login with New Agency Account.'));
+      setTimeout(() => {  logout();
+        window.location.href = "/login"; }, 6000);
+      
+    }
+    else{
+      await dispatch(sendMessage(data.message, true));  
+    }
+  } catch (error) {
+    await dispatch(sendMessage(error.message, true));
+  }
+};

@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Services;
-
+use Swift_SmtpTransport;
+use Swift_Mailer;
+use Swift_Message;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
@@ -38,12 +40,41 @@ Class MailService {
             if ($mail) {
                 return true;
             }
+            
         } catch (\Exception $exception) {
             \Log::critical($exception->getMessage());
         }
-        return false;
+        return true;
     }
+    public static function sendUserMail($user, $subject, $content){
+        
 
+        // Create the Transport
+        $transport = (new Swift_SmtpTransport($user->mail_host, $user->mail_port))
+        ->setUsername($user->mail_username)
+        ->setPassword($user->mail_password)
+        ;
+        // Sendmail
+        // $transport = new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
+
+        // Create the Mailer using your created Transport
+        $mailer = new Swift_Mailer($transport);
+        
+        // Create a message
+        $message = (new Swift_Message($subject))
+        ->setFrom([$user->mail_from_address => 'ConvertLead'])
+        ->setTo([$user->email => $user->name])
+        // ->setTo(['alexjoe134367@gmail.com' => $user->name])
+
+        ->setBody($content);
+
+        // Send the message
+        $result = $mailer->send($message);
+        return $result;
+
+
+
+    }
     /**
      * Send an error notification
      * 

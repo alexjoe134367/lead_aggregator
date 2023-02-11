@@ -27,11 +27,11 @@ export const send_mail = form => async (dispatch) => {
         let res = await (send_Message(form));
         res = res.data;
         console.log("res", res );
-        if(res.includes("success")){
-            await dispatch(sendMessage('Successfully Email sent!'));
+        if(res.result === "success"){
+            await dispatch(sendMessage(res.message));
             await dispatch(actions.closeForm(form));
         } else{
-            await dispatch(sendMessage('Email did not send!'));
+            await dispatch(sendMessage(res.message, true));
             await dispatch(actions.closeForm(form));
         }
     } catch (e){

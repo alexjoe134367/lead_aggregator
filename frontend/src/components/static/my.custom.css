@@ -3540,6 +3540,15 @@ i.icon.pencil {
     height: 45px;
 }
 
+.ui.secondary.menu.leadnotes button i {
+    height:unset !important;
+}
+
+ .ui.secondary.menu.leadnotes button:hover {
+    color:#fff !important;
+    background:#4d77ff !important;
+ }
+
 .LeadNotes .lead-profile .lead-profile-row .lead-profile-value.fullname {
     text-align: center !important;
     font-size: 25px !important;

@@ -21,6 +21,7 @@ const initState = {
     mail_port: 0,
     mail_username: '',
     mail_password: '',
+    mail_from_address: '',
   },
   required: {
     name: true,

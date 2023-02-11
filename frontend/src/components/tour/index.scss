@@ -7,7 +7,7 @@
     right: 0;
 }
 
-.btn {
+.shepherd-button {
     background-color: #4caf50; /* Green */
     color: white;
     padding: 8px 24px;
@@ -17,13 +17,203 @@
     text-decoration: none;
     cursor: pointer;
   }
-  .btn-info {
-    background-color: #e7e7e7;
-    color: white;
-  }
-  .btn-success {
-    background-color: orange;
-  }
+  
   .paragraph {
     padding: 100px;
   }
+
+
+  .shepherd-element {
+    
+    box-shadow:none;
+    max-width: 400px;
+    opacity: 0;
+    outline: none;
+    transition: opacity .3s,visibility .3s;
+    visibility: hidden;
+    width: 100%;
+    z-index: 9999;
+    outline: 2px #ccc;
+    outline-width: 2px;
+    outline-width: 2px;
+    outline-width: 4px;
+    color:#3c3a4e;
+    background: transparent;
+    border-radius: 20px;
+    padding: 1em;
+}
+
+.shepherd-element .shepherd-content  {
+    
+    box-shadow: 0 1px 55px rgba(0,0,0,.21);
+    background: #fff;
+    border-radius: 20px;
+    padding: 2em 3em;
+}
+
+.shepherd-element.welcometour {
+    max-width:600px !important;
+}
+
+.shepherd-arrow, .shepherd-arrow:before {
+    width: 40px;
+    background-color: transparent !important;
+    height: 40px;
+    z-index: 999;
+}
+
+
+.shepherd-arrow:before {
+
+    background-color: transparent !important;
+    background: url("/img/arrow.svg") no-repeat center center !important;
+    
+   }
+   
+.shepherd-element.left .shepherd-arrow:before {
+    background: url("/img/arrowright.svg") no-repeat center center !important;
+}
+
+.shepherd-element.bottom .shepherd-arrow:before {
+    background: url("/img/arrowbottom.svg") no-repeat center center !important;
+}
+
+
+.shepherd-element.bottom .shepherd-arrow,.shepherd-element.bottom .shepherd-arrow:before {
+    width: 70px;
+    background-color: transparent !important;
+    height: 40px;
+    z-index: 999;
+    margin-top: 4px;
+}
+
+.shepherd-text {
+    color:#3c3a4e;
+    font-size: 1.1rem;
+    line-height: 1.3em;
+    padding: 0;
+    font-family: 'Averta';
+    font-weight: 400;
+    width: 100% !important;
+    display: flex;
+    flex-direction: row;
+    
+    }
+
+.shepherd-footer {
+    padding:0;
+    padding-top:1em;
+}
+
+.shepherd-button {
+
+    background: transparent !important;
+    border: 0;
+    border-radius: 105px;
+    color: #3c3a4e;
+    cursor: pointer;
+    margin-right: .5rem;
+    padding: .8rem 2rem;
+    transition: all .5s ease;
+    font-family: 'Averta', sans-serif !important;
+    font-size: 1em;
+    font-weight: 500 !important;
+}
+
+.shepherd-header {
+    width: 100%;
+    height: unset;
+    display: flex;
+    white-space: nowrap;
+    position: unset;
+    padding: 1em 0 !important;
+    color:#3c3a4e !important;
+    background: #fff !important;
+
+}
+
+.shepherd-header h3 {
+    color:#4d77ff !important;
+    font-family:'Averta', sans-serif;
+    font-weight:400 !important;
+}
+    .shepherd-title  {
+      color: #fff;
+      font-weight: 500;
+      font-family: 'Averta';
+      font-size: 16px;
+    
+    }
+
+
+.shepherd-button:hover {
+    color:#4d77ff !important;
+    background:transparent;
+}
+
+.shepherd-button.blue {
+    background:#4d77ff !important;
+    color:#fff;
+}
+
+.shepherd-button.blue:hover {
+    background:#305dee !important;
+    color:#fff !important;
+   
+}
+
+.shepherd-button.shepherd-button-secondary {
+    position: absolute;
+    top: 19px;
+    right: 15px;
+    background:transparent;
+    color:transparent !important;
+    width:20px;
+    height: 20px;
+}
+
+.shepherd-modal-overlay-container.shepherd-modal-is-visible {
+    opacity:.1 !important;
+}
+
+.shepherd-modal-overlay-container.shepherd-modal-is-visible path {
+    fill: #323445;
+}
+
+
+.shepherd-enabled.shepherd-target {
+    background: rgba(167, 164, 255, 0.04);
+}
+
+.AppSidebar a.shepherd-target .item i:hover:after {
+    display:none !important;
+}
+
+.sidebar-bootom.shepherd-enabled.shepherd-target {
+    padding-bottom:20px;
+}
+
+
+.shepherd-button.shepherd-button-secondary:after {
+      content: "\E5B7";
+      font-family: Flaticons Stroke;
+      speak: none;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1;
+      position:absolute;
+      top: 10px;
+      right: 5px;
+      display:block;
+      color: #3c3a4e !important;
+      font-size: 20px;
+}
+
+.shepherd-button.shepherd-button-secondary:hover:after {
+    color:#4d77ff;
+}
+
+.content-right .welcomebanner {
+    width: 230px;
+    margin-top: -100px;
+}

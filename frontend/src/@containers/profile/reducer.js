@@ -1,4 +1,6 @@
-import {CHANGE_PASSWORD_RESET_FORM, CHANGE_PROFILE_FORM, LOAD_PROFILE_FORM, UPDATE_USER_PROFILE} from './actions';
+import {CHANGE_PASSWORD_RESET_FORM, CHANGE_PROFILE_FORM, LOAD_PROFILE_FORM, UPDATE_USER_PROFILE, UPDATE_COCODE, LOAD_COCODE_LIST,
+    // USE_REDEEMCODE
+} from './actions';
 import * as R from "ramda";
 import {SessionStorage} from "@services";
 
@@ -16,6 +18,8 @@ const initialState = {
         twilio_token: null,
         twilio_sid: null,
         twilio_mobile_number: null,
+        subscription_type: null,
+        max_agency_companies:0,
     }, ['user'], SessionStorage.getItem('session')),
     profileForm: {
         id: null,
@@ -30,7 +34,9 @@ const initialState = {
     passwordResetForm: {
         password: '',
         password_confirmation: '',
-    }
+    },
+    cocode: '',
+    cocodeList:[],
 };
 
 function profile(state = initialState, action) {
@@ -68,6 +74,24 @@ function profile(state = initialState, action) {
                 }
             }
         }
+        case UPDATE_COCODE: {
+            return {
+                ...state,
+                cocode: action.cocode
+            }
+        }
+        case LOAD_COCODE_LIST: {
+            return {
+                ...state,
+                cocodeList: action.cocodeList
+            }
+        }
+        // case USE_REDEEMCODE: {
+        //     return {
+        //         ...state,
+        //         cocode: action.cocode,
+        //     }; 
+        // }
         default: {
             return {
                 ...state,

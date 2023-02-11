@@ -8,6 +8,8 @@ const mapStateToProps = state => ({
   selectBoxAgencies: getSelectBoxAgencies(state),
   profileForm: state.profile.profileForm,
   passwordResetForm: state.profile.passwordResetForm,
+  cocode: state.profile.cocode,
+  cocodeList:state.profile.cocodeList,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -15,6 +17,8 @@ const mapDispatchToProps = dispatch => ({
   updateUserProfile: profile => dispatch(thunks.updateProfile(profile)),
   changeProfileForm: profile => dispatch(actions.changeProfileForm(profile)),
   changePasswordResetForm: profile => dispatch(actions.changePasswordResetForm(profile)),
+  useRedeemCode: (profile,cocode) => dispatch(thunks.useCode(profile,cocode)),
+  updateCocode: cocode => dispatch(actions.updateCocode(cocode)),
 });
 
 export default connect(

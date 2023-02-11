@@ -71,6 +71,7 @@ class CompanyForm extends Component {
             mail_port,
             mail_username,
             mail_password,
+            mail_from_address,
         } = this.props.form;
         const tabs = [
             {
@@ -175,15 +176,15 @@ class CompanyForm extends Component {
                     <Grid.Row className="twilioContainer">
                         <Grid.Column>
                         <Form.Field>
-                            <label>mail_host</label>
-                            <Input placeholder='MAIL_HOST' name='mail_host' value={mail_host || ''}
+                            <label>Smtp host</label>
+                            <Input placeholder='host' name='mail_host' value={mail_host || ''}
                                    onChange={this.onChange}/>
                         </Form.Field>
                         </Grid.Column>
                         <Grid.Column>
                             <Form.Field>
-                                <label>mail_port</label>
-                                <Input placeholder='MAIL_PORT' name='mail_port' value={mail_port || ''}
+                                <label>Smtp port</label>
+                                <Input placeholder='port' name='mail_port' value={mail_port || ''}
                                        onChange={this.onChange}/>
                             </Form.Field>
                         </Grid.Column>
@@ -192,20 +193,30 @@ class CompanyForm extends Component {
                     <Grid.Row className="twilioContainer">
                     <Grid.Column>
                         <Form.Field>
-                            <label>mail_username</label>
-                            <Input placeholder='MAIL_USERNAME' name='mail_username' value={mail_username || ''}
+                            <label>Smtp username</label>
+                            <Input placeholder='username' name='mail_username' value={mail_username || ''}
                                    onChange={this.onChange}/>
                         </Form.Field>
                         </Grid.Column> 
                        <Grid.Column>
                            <Form.Field>
-                               <label>mail_password</label>
-                               <Input placeholder='MAIL_PASSWORD'
+                               <label>Smtp password</label>
+                               <Input placeholder='password'
                                       name='mail_password'
                                       value={mail_password || ''}
                                       onChange={this.onChange}/>
                            </Form.Field>
                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className="twilioContainer">
+                    <Grid.Column>
+                        <Form.Field>
+                            <label>Smtp from address</label>
+                            <Input placeholder='from address' name='mail_from_address' value={mail_from_address || ''}
+                                   onChange={this.onChange}/>
+                        </Form.Field>
+                        </Grid.Column> 
+                       
                     </Grid.Row></>
                     }
                     

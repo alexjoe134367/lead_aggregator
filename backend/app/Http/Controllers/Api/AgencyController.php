@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Agency;
 use App\Models\Company;
+use App\Models\User;
+use App\Models\Cocode;
 use App\Services\MailService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Carbon\Carbon;
 
 class AgencyController extends Controller
 {
@@ -288,5 +291,44 @@ class AgencyController extends Controller
             ]);
             $company->save();
         }
+    }
+    /**
+     * @param Request $request
+     * @param $agencyUUID
+     * @param Company $company
+     * @return Company|\Illuminate\Database\Eloquent\Model
+     * @throws \Exception
+     */
+    public function createAgencyByCocod(Request $request)
+    {
+        // return $request;
+        // $agency = Agen
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'cocode' => 'required',
+        ]);
+        $company = Company::where('email', $request->email)->first();
+        if(is_object($company) && $company->email === $request->email ){
+            return ['result'=>false, 'message'=>'This email already exist.'];
+        }
+        $cocode = Cocode::where('code', $request->cocode)->first();
+        if(!is_object($cocode) || $cocode->agency_id != null){
+            return ['result'=>false, 'message'=>'You Coupon code is not available.'];
+        }
+        $agency = User::create([
+            'name'=>$request->name,
+            'email' => $request->email,
+            'role' => 'AGENCY',
+            'subscription_type' =>'BASE',
+            'max_agency_companies' => 1,
+            'password'=> bcrypt($request->password),
+            'password_confirmation' => bcrypt($request->password)
+        ]);
+        $agency = Agency::where('email', $request->email)->firstOrFail();
+        $agency->companies()->attach($agency);
+        $cocode = Cocode::where('code', $request->cocode)->update(['agency_id'=>$agency->id, 'used_at'=>Carbon::now()->toDateTimeString()]);
+        return ['result'=>true, 'message'=>'Using Coupon code agency account is created successfully', 'countcomapny'=>$agency->companies()->count()];
     }
 }

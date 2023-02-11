@@ -5,7 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { withRouter, Route,Switch } from 'react-router-dom';
 import Layout from './layout';
 import { AuthContainer, ProfileContainer } from '@containers';
-import { LoginLayout, OptinFormPage, ResetPassword,Builder } from '.';
+import { LoginLayout, OptinFormPage, ResetPassword,Builder, Register } from '.';
+
 // import history from '../history';
 
 import './App.scss';
@@ -24,7 +25,10 @@ const App = () => (
         <Route exact path="/password-reset" component={withRouter(ResetPassword)} />
         <Route exact path="/campaign/:uuid" component={withRouter(OptinFormPage)} />
         <Route exact path="/builder" component={withRouter(Builder)} />
+        <Route exact path="/register-appsumo" component={withRouter(Register)} />
         <Route path="/" component={Layout} />
+        
+        
       </Switch>
     }
   </div>

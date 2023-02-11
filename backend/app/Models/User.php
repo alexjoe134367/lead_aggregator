@@ -77,6 +77,7 @@ class User extends Authenticatable
         'mail_port',
         'mail_username',
         'mail_password',
+        'mail_from_address',
     ];
 
     protected $appends = ['avatar_path', 'permissions'];

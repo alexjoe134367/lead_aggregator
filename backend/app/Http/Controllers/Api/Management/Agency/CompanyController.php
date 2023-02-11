@@ -137,10 +137,10 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
         $company = $request->user()->getCompanyBy($id);
         $company->handleAvatar($request);
         $company->updateUser($request->except('role'));
+
         $company->setupTwilioSmsWebHook(
             $request->get('twilio_sid'),
             $request->get('twilio_token'),

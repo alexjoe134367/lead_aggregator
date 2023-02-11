@@ -13,20 +13,22 @@ const tourOptions = {
   defaultStepOptions: {
    
   },
-  useModalOverlay: true
+  useModalOverlay: true,
+
+
 };
 
 function SH_Button() {
   const tour = useContext(ShepherdTourContext);
   if(!localStorage.getItem('shepherd-tour')) {
-    // tour.start();     you need to uncomment this when run tour
+    tour.start();    // you need to uncomment this when run tour
     console.log("one displayed");
     localStorage.setItem('shepherd-tour', 'yes');
   }
   
   return (
     // you need to remove dispaly style when run tour
-    <button className="button dark " onClick={tour.start} style={{'display':'none'}}>
+    <button className="button dark " onClick={tour.start} >
       Start Tour
     </button>
   );

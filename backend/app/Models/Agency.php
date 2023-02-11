@@ -197,6 +197,7 @@ class Agency extends User
             users.mail_port,
             users.mail_username,
             users.mail_password,
+            users.mail_from_address,
             agency_companies.is_locked,
             IF(users.deleted_at IS NOT NULL, 1, 0) AS is_deleted,
             COUNT(DISTINCT users.id, deals.id) as deals_count,

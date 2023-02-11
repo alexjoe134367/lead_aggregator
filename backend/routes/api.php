@@ -48,6 +48,8 @@ Route::group(['namespace' => 'Api'], function () {
 
         Route::post('leads/{lead}/send-sms', 'TwilioController@sendSMS');
         Route::get('user_info/{user_id}', 'AgencyController@getUserInfo');
+        Route::post('create/agency', 'AgencyController@createAgencyByCocod');
+        
 
     });
 });
@@ -64,6 +66,8 @@ Route::middleware(['auth:api', 'auth-user', 'cors'])->prefix('v1')->group(
             Route::post('reports', 'ReportController@store');
             Route::get('reports/{uuid}/poll', 'ReportController@poll');
             Route::get('timezones', 'TimezonesController@all');
+            Route::post('use-cocode', 'ProfileController@useCocode');
+            
         });
 
         Route::group(['namespace' => 'Api\Management\Admin'], function () {

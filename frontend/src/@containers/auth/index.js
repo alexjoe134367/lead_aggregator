@@ -15,6 +15,7 @@ const mapActionsToProps = dispatch => ({
   login: (email, password) => dispatch(thunks.login(email, password)),
   resetPassword: email => dispatch(thunks.resetPassword(email)),
   logout: () => dispatch(thunks.logout()),
+  register: (name, email, password, cocode) => dispatch(thunks.registerAgency(name, email, password, cocode)),
 });
 
 export default connect(mapStateToProps, mapActionsToProps);
