@@ -22,7 +22,7 @@ export const login = (email, password) => async (dispatch, getState) => {
     await dispatch(addSessionToken(tokenData));
     await dispatch(updateUserProfile(tokenData.user));
     await dispatch(loadProfileForm(tokenData.user));
-    await dispatch(sendMessage('You have been logged successfully!'));
+    await dispatch(sendMessage('Successfully logged in!'));
     window.webViewBridge.send('onLogin', tokenData, function (res) {
       console.log("===Success Send Login Data to app!!! ===: ", res);
     }, function (err) {
@@ -91,7 +91,7 @@ export const autoLoginBy = email => {
         await dispatch(addSessionToken(tokenData));
         await dispatch(updateUserProfile(tokenData.user));
         await dispatch(loadProfileForm(tokenData.user));
-        await dispatch(sendMessage('You have been logged successfully!'));
+        await dispatch(sendMessage('Successfully logged in!'));
         window.location.reload();
       } catch (error) {
         await dispatch(sendMessage(error.message, true));
@@ -119,7 +119,7 @@ export const loginToAdmin = () => {
         await dispatch(addSessionToken(tokenData));
         await dispatch(updateUserProfile(tokenData.user));
         await dispatch(loadProfileForm(tokenData.user));
-        await dispatch(sendMessage('You have been logged successfully!'));
+        await dispatch(sendMessage('Successfully logged in!'));
         window.location = '/';
       } catch (error) {
         await dispatch(sendMessage(error.message, true));
@@ -156,7 +156,7 @@ export const registerAgency = (name, email, password, cocode) => async (dispatch
     // const temp = data.res;
     
     if (data.result === true){
-      await dispatch(sendMessage('New Agency Account Created! Please Login with New Agency Account.'));
+      await dispatch(sendMessage('Account Created! We`ll redirect you to the login page'));
       setTimeout(() => {  logout();
         window.location.href = "/login"; }, 6000);
       

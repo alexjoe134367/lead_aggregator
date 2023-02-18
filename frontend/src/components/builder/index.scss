@@ -1,3 +1,10 @@
+
+.gjs-hovered:hover, .gjs-hovered {
+    border-width:0px !important;
+    box-shadow: 0 0 0 0 #fff !important;
+    outline: 0px solid rgba !important;
+}
+
 .ui.grey.button.page_back {
    position: absolute;
    left: 0px;
@@ -13,6 +20,14 @@
    justify-content: center;
    display: flex;
 }
+
+
+
+.gjs-dashed [data-gjs-highlightable] {
+    outline:2px dashed rgba(90, 110, 168, 0.23) !important;
+    outline-offset:-1px !important;
+}
+
 
 .gjs-pn-btn.gjs-pn-active {
    background-color: rgb(234, 237, 248) !important;

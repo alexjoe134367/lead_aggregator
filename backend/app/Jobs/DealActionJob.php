@@ -14,6 +14,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\ServiceProvider;
+
 use Log;
 
 class DealActionJob implements ShouldQueue
@@ -21,15 +23,26 @@ class DealActionJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $leadActionHistory;
+    // custom smtp test
+    public $configuration;
+    public $to;
+    public $mailable;
+    // custom smtp test
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(LeadActionHistory $leadActionHistory)
+    public function __construct(LeadActionHistory $leadActionHistory, array $configuration, string $to, Mailable $mailable)
+    // public function __construct(LeadActionHistory $leadActionHistory) // custom smtp test
     {
         $this->leadActionHistory = $leadActionHistory;
+        // custom smtp test
+        $this->configuration = $configuration;
+        $this->to = $to;
+        $this->mailable = $mailable;
+        // custom smtp test
     }
 
     /**
@@ -55,7 +68,20 @@ class DealActionJob implements ShouldQueue
             }
 
             try {
-                $this->executeCommand($dealAction, $lead);
+                // custom smtp test
+                if($dealAction->type == DealAction::TYPE_EMAIL_MESSAGE){
+                    try{
+                        $mailer = app()->makeWith('user.mailer', $this->configuration);
+                        $mailer->to($this->to)->send($this->mailable);
+                    }catch (\Exception $exception) {
+                        $this->executeCommand($dealAction, $lead);    
+                    }
+                }else{
+                    $this->executeCommand($dealAction, $lead);
+                }
+                // $this->executeCommand($dealAction, $lead);
+                // custom smtp test
+                
             } catch (\Exception $exception) {
                 Log::critical("{$exception->getMessage()}");
             }
@@ -80,9 +106,10 @@ class DealActionJob implements ShouldQueue
         switch ($dealAction->type) {
             case DealAction::TYPE_EMAIL_MESSAGE: {
                 $agency_company = AgencyCompany::where('id', $lead->agency_company_id)->first();
-                $company = User::where('id', $agency_company->company_id);
+                $agent = $lead->agent()->first();
+                $user = User::where('id', $agency_company->company_id);
                 try {
-                    $result = MailService::sendUserMail($company, $dealAction->object->subject, $dealAction->object->message);                                
+                    $result = MailService::sendUserMail($lead, $user, $agent, $dealAction->object->subject, $dealAction->object->message, true);                                
                 } catch (\Exception $exception) {
                     \Artisan::call("send:email-notification", [
                         'leadId' => $lead->id,

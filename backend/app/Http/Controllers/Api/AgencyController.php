@@ -215,7 +215,7 @@ class AgencyController extends Controller
         $countCompanies = $agency->companies()->count();
         if ($countCompanies >= $agency->max_agency_companies) {
             $error = ValidationException::withMessages([
-                'max_agency_companies' => ['You have exceeded the maxim number of allowed companies to create!'],
+                'max_agency_companies' => ['You have exceeded the maximum number of companies that you can add!'],
             ]);
             throw $error;
         }
@@ -315,7 +315,7 @@ class AgencyController extends Controller
         }
         $cocode = Cocode::where('code', $request->cocode)->first();
         if(!is_object($cocode) || $cocode->agency_id != null){
-            return ['result'=>false, 'message'=>'You Coupon code is not available.'];
+            return ['result'=>false, 'message'=>'Your AppSumo code is invalid.'];
         }
         $agency = User::create([
             'name'=>$request->name,
@@ -329,6 +329,6 @@ class AgencyController extends Controller
         $agency = Agency::where('email', $request->email)->firstOrFail();
         $agency->companies()->attach($agency);
         $cocode = Cocode::where('code', $request->cocode)->update(['agency_id'=>$agency->id, 'used_at'=>Carbon::now()->toDateTimeString()]);
-        return ['result'=>true, 'message'=>'Using Coupon code agency account is created successfully', 'countcomapny'=>$agency->companies()->count()];
+        return ['result'=>true, 'message'=>'Account successfully created', 'countcomapny'=>$agency->companies()->count()];
     }
 }

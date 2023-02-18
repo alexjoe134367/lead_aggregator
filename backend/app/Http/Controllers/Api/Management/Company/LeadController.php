@@ -142,24 +142,12 @@ class LeadController extends Controller
             ]);
             
             
-            $result = MailService::sendUserMail($user, $request->subject, $request->content);
+            $result = MailService::sendUserMail($lead, $user, $agent, $request->subject, $request->content, true);
         
         } catch (\Exception $exception) {
             $ownerror = $exception;
             try{
-                 $result = MailService::sendMail(
-                    'emails.agent-lead',
-                    [
-                        'from_address' => $agentEmail,
-                        'from_address_name' => $agentName,
-                        'body' => $request->content,
-                        // 'leadId' => $lead->id,
-                        // 'dealActionId' => $dealAction->id,
-                    ],
-                    $user->email,
-                    // "alexjoe134367@gmail.com",
-                    $request->subject
-                );
+                $result = MailService::sendUserMail($lead, $user, $agent, $request->subject, $request->content, false);
             } catch (\Exception $exception) {
                 return ['mail'=>$result, 'result'=>"fail", 'message'=> "Mail has not been sent!\n\nReason:".$exception->getMessage()];
             }
@@ -170,4 +158,5 @@ class LeadController extends Controller
         return ['mail'=>$result, 'result'=>"success", 'message'=> "Mail sent using own smtp info", 'company'=> $company];
         
     }
+
 }

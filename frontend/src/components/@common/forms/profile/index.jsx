@@ -154,7 +154,7 @@ class AgentForm extends Component {
             render: () => <></>
         },
         {
-            menuItem: 'Appsumo',
+            menuItem: 'AppSumo',
             render: () => <></>
         }
         ];
@@ -304,7 +304,7 @@ class AgentForm extends Component {
                                 </Table>
                             </Grid.Column>
                             <Grid.Column textAlign='left'>
-                            <span style={{'fontSize':'24px'}}>Maximum allowed clients: {this.props.profile.max_agency_companies > 60?'Unlimited Clients':this.props.profile.max_agency_companies}</span>
+                            <span style={{'fontSize':'24px'}}>Maximum allowed clients: {this.props.profile.max_agency_companies > 59?'Unlimited Clients':this.props.profile.max_agency_companies}</span>
                             </Grid.Column>
                         </Grid>
                     </Form>

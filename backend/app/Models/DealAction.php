@@ -126,11 +126,29 @@ class DealAction extends Model {
         }
 
         $minutes = ceil($this->delay_time/60);
-        DealActionJob::dispatch($leadActionHistory)
-            ->delay(
-                now()->addMinutes($minutes)
-            )
-            ->onQueue('actions');
+        // custom smtp test
+        $configuration = [
+            'smtp_host'    => 'SMTP-HOST-HERE',
+            'smtp_port'    => 'SMTP-PORT-HERE',
+            'smtp_username'  => 'SMTP-USERNAME-HERE',
+            'smtp_password'  => 'SMTP-PASSWORD-HERE',
+            'smtp_encryption'  => 'SMTP-ENCRYPTION-HERE',
+            
+            'from_email'    => 'FROM-EMAIL-HERE',
+            'from_name'    => 'FROM-NAME-HERE',
+           ];
+            
+           UserMailerJob::dispatch($leadActionHistory, $configuration, 'recipient', new SomeMailable())->delay(
+            now()->addMinutes($minutes)
+        )
+        ->onQueue('actions');
+           // custom smtp test
+           
+        // DealActionJob::dispatch($leadActionHistory)
+        //     ->delay(
+        //         now()->addMinutes($minutes)
+        //     )
+        //     ->onQueue('actions');
     }
 
     public function getRootParentAttribute() {

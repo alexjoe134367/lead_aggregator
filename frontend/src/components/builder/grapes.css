@@ -142,9 +142,12 @@ width: 7px;
     top: 5px;
 }
 
-.gjs-field .gjs-d-s-arrow {
 
-    right: 15px;
+.gjs-field .gjs-sel-arrow {
+    right:17px;
+}
+.gjs-field .gjs-d-s-arrow {
+    right:-2px;
     border-top: 5px solid rgb(141, 150, 181);
 }
 
@@ -583,6 +586,17 @@ button, input, optgroup, select, textarea {
     box-shadow: none;
 }
 
+.gjs-sm-select {
+    width: fit-content;
+}
+.gjs-sm-property__font-family {
+    width:50% !important;
+}
+
+.gjs-field.gjs-select {
+    padding-right: 25px !important;
+}
+
 .gjs-block-category .gjs-title, .gjs-layer__t-wrapper .gjs-layer-title  {
     text-transform: uppercase !important;
     font-family: 'Averta';
@@ -593,6 +607,11 @@ button, input, optgroup, select, textarea {
     border-bottom: 1px solid #dfdff0;
     padding:9px 10px 9px 20px;
 
+}
+
+.gjs-dashed [data-gjs-highlightable] {
+    outline:2px dashed rgba(90, 110, 168, 0.23);
+    outline-offset:-1px ;
 }
 
 
@@ -609,6 +628,18 @@ button, input, optgroup, select, textarea {
 .gjs-toolbar,.gjs-selected,.gjs-hovered{
     
     background: #567af8 !important;
+}
+
+.gjs-resizer-h {
+
+    border:3px solid #5379fd !important
+};
+
+
+.gjs-hovered {
+    border-width:0px !important;
+    box-shadow:none !important;
+    outline-width: 0px !important;
 }
 .gjs-badge{
     background-color:#567af8 !important;
@@ -632,6 +663,24 @@ button, input, optgroup, select, textarea {
     padding: 15px 20px;
     background: #eaedf8 !important;
     border-radius: 5px;
+    order:6;
+}
+
+div.gjs-block:nth-child(9) {
+    order:1;
+}
+
+div.gjs-block:nth-child(10) {
+    order:2;
+}
+
+div.gjs-block:nth-child(11) {
+    order:3;
+}
+
+
+div.gjs-block:nth-child(12) {
+    order:4;
 }
 
 .gjs-block:hover {

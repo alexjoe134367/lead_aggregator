@@ -16,16 +16,19 @@ import countdown from 'grapesjs-component-countdown';
 import tabs from 'grapesjs-tabs';
 import customcode from 'grapesjs-custom-code';
 
+
+
 import 'grapesjs/dist/css/grapes.min.css';
 import defaultPage from './default';
 import './grapes.css';
 import './index.scss';
+import './default.js';
 import history from '../../history';
 import { config } from "@services";
 
 import * as htmlToImage from 'html-to-image';
 import { indexOf } from "ramda";
-const svgNameList = ['column', '2columns', '3columns', '2col37', 'text', 'link', 'image', 'video', 'map', 'linkblock', 'quote', 'textsection', 'form', 'input', 'textarea', 'select', 'button', 'label', 'checkbox', 'radio', 'navbar', 'countdown', 'tabs', 'customcode'
+const svgNameList = ['text', 'link', 'image', 'video', 'map', 'linkblock', 'quote', 'textsection', 'form', 'input', 'textarea', 'select', 'button', 'label', 'checkbox', 'radio', 'navbar', 'countdown', 'tabs', 'customcode'
 ];
 
 const panelList = [];
@@ -61,7 +64,9 @@ class Builder extends Component {
                 storeCss: true,
                 autorender: false
             },
-            plugins: [
+
+               canvasCss: '.gjs-selected { outline: 2px dashed #567af8 !important;} .gjs-dashed [data-gjs-highlightable] {outline:2px dashed rgba(90, 110, 168, 0.23) ; outline-offset:-1px ;} .gjs-hovered {outline: 0px dashed #567af8 !important;}',               
+               plugins: [
                 basic, plugin, forms, pgexport, navbar, countdown, tabs, 'grapesjs-custom-code',
             ],
             pluginsOpts: {
@@ -117,7 +122,12 @@ class Builder extends Component {
         });
 
         const blockManager = editor.Blocks;
-        let blocks = blockManager.getAll();
+       let blocks = blockManager.getAllVisible();
+        blockManager.remove( 'column1');
+        blockManager.remove( 'column2');
+        blockManager.remove( 'column3');
+        blockManager.remove( 'column3-7')
+
 
         blocks.map((block, index) => {
             block.attributes.media = '<img src = "buildericons/' + svgNameList[index] + '.svg">';
@@ -136,7 +146,407 @@ class Builder extends Component {
 
         var _self = this;
 
-        editor.DomComponents.addType('form', {
+
+
+         editor.BlockManager.add('1colrow', {
+            name:'1colrow',
+            label: 'Full width',
+            media: '<img src="buildericons/column.svg"/>',
+            category: 'Basic',
+            style: { order:'1'},
+            content: {  type: 'default',
+                        name:'content wrap',
+                        style: { display:'flex', padding:'20px 20px', 'min-height':'100px','height':'100%','max-width':'100%','width':'100%'},
+
+                        components: [{ type: 'default',
+                                        name:'Content',
+                                        style: { display:'flex', padding:'40px 40px', 'min-height':'100px','max-width':'1200px','flex-direction':'column', 'margin':'0 auto' },
+                                        droppable: true,
+                                        editable: true,
+                                        components: [ {  
+                                                        name:'headline', type:'text', 
+                                                        tagname:'h1',
+                                                        content:'Your cool feature here',
+                                                        style: { 'font-family':'Open Sans', 'font-size':'20px', 'width':'100%','font-weight':'600', 'margin-bottom':'10px',},
+                                                                        }, 
+
+                                                        {  
+                                                        name:'text', type:'text', 
+                                                        tagname:'p',
+                                                        content:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus laoreet odio ac tristique. Nunc nisl tellus, porta eget eros at, rutrum tempor magna. Etiam ut elementum velit. Morbi auctor elit vel lacinia accumsan.',
+                                                        style: { 'font-family':'Open Sans','width':'100%',},
+                                                                        },
+
+                                                                    ]                                                                 
+                                                    }],
+                                    },
+             });
+
+
+
+         editor.BlockManager.add('2colrow', {
+            name:'2colrow',
+            label: '2 Columns',
+            media: '<img src="buildericons/2colrow.svg"/>',
+            category: 'Basic',
+            style: { order:'2'},
+            content: {  type: 'default',
+                        name:'content wrap',
+                        style: { display:'flex', padding:'20px 20px', 'min-height':'100px','height':'100%','max-width':'100%','width':'100%'},
+
+                        components: [{ type: 'default',
+                                        name:'content',
+                                        style: { display:'flex', padding:'20px 20px', 'min-height':'100px','max-width':'1200px','margin':'0 auto' },
+                                        droppable: true,
+                                        editable: true,
+                                        components: [ { 
+
+                                                    type:'default', 
+                                                    droppable: true,
+                                                    editable: true,
+                                                    name:'col1',
+                                                    style: { 'font-family':'Open Sans', padding:'20px 20px', display:'flex','flex-direction':'column',cursor:'arrow',height:'100%','width':'50%', float:'left'},
+                                                    components: [{  name:'image', type:'image', 
+                                                                    attributes: { src: 'buildericons/imgplaceholder.svg' },
+                                                                    style: { 'width':'100%', 'height':'100%', display:'block', 'margin-bottom':'20px'},
+                                                                    },
+
+                                                                    {  
+                                                                    name:'headline', type:'text', 
+                                                                    tagname:'h1',
+                                                                    content:'Your cool feature here',
+                                                                    style: { 'font-family':'Open Sans', 'font-size':'20px', 'font-weight':'600', 'margin-bottom':'10px',},
+                                                                    }, 
+
+                                                                    {  
+                                                                    name:'text', type:'text', 
+                                                                    tagname:'p',
+                                                                    content:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus laoreet odio ac tristique. Nunc nisl tellus, porta eget eros at, rutrum tempor magna. Etiam ut elementum velit. Morbi auctor elit vel lacinia accumsan.',
+                                                                    style: { 'font-family':'Open Sans'},
+                                                                    },
+
+                                                                ]
+                                        
+                                        
+                                                     }, 
+
+                                                    {   
+                                                        type:'default',
+                                                        droppable: true,
+                                                        editable: true,
+                                                        name:'col2',
+                                                        style: { 'font-family':'Open Sans', padding:'20px 20px', display:'flex','flex-direction':'column',cursor:'arrow',height:'100%','width':'50%', float:'left'},
+                                                        components: [{  name:'image', type:'image', 
+                                                                        attributes: { src: 'buildericons/imgplaceholder.svg' },
+                                                                        style: { 'width':'100%', 'height':'100%', display:'block', 'margin-bottom':'20px'},
+                                                                        },
+
+                                                                        {  
+                                                                        name:'headline', type:'text', 
+                                                                        tagname:'h1',
+                                                                        content:'Your cool feature here',
+                                                                        style: { 'font-family':'Open Sans', 'font-size':'20px', 'font-weight':'600', 'margin-bottom':'10px',},
+                                                                        }, 
+
+                                                                        {  
+                                                                        name:'text', type:'text', 
+                                                                        tagname:'p',
+                                                                        content:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus laoreet odio ac tristique. Nunc nisl tellus, porta eget eros at, rutrum tempor magna. Etiam ut elementum velit. Morbi auctor elit vel lacinia accumsan.',
+                                                                        style: { 'font-family':'Open Sans'},
+                                                                        },
+
+                                                                    ]                                                                 
+                                                    }
+                                                    ],
+                                    },],
+                                },
+                    
+             });
+
+
+
+
+ editor.BlockManager.add('3colrow', {
+            name:'3colrow',
+            label: '3 Columns',
+            media: '<img src="buildericons/3columns.svg"/>',
+            category: 'Basic',
+            style: { order:'2'},
+            content: {  type: 'default',
+                        name:'content wrap',
+                        style: { display:'flex', padding:'20px 20px', 'min-height':'100px','height':'100%','max-width':'100%','width':'100%'},
+
+                        components: [{ type: 'default',
+                                        name:'content',
+                                        style: { display:'flex', padding:'20px 20px', 'min-height':'100px','max-width':'1200px','margin':'0 auto' },
+                                        droppable: true,
+                                        editable: true,
+                                        components: [ { 
+
+                                                    type:'default', 
+                                                    droppable: true,
+                                                    editable: true,
+                                                    name:'col1',
+                                                    style: { 'font-family':'Open Sans', padding:'20px 20px', display:'flex','flex-direction':'column',cursor:'arrow',height:'100%','width':'33%', float:'left'},
+                                                    components: [{  name:'image', type:'image', 
+                                                                    attributes: { src: 'buildericons/imgplaceholder.svg' },
+                                                                    style: { 'width':'100%', 'height':'100%', display:'block', 'margin-bottom':'20px'},
+                                                                    },
+
+                                                                    {  
+                                                                    name:'headline', type:'text', 
+                                                                    tagname:'h1',
+                                                                    content:'Your cool feature here',
+                                                                    style: { 'font-family':'Open Sans', 'font-size':'20px', 'font-weight':'600', 'margin-bottom':'10px',},
+                                                                    }, 
+
+                                                                    {  
+                                                                    name:'text', type:'text', 
+                                                                    tagname:'p',
+                                                                    content:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus laoreet odio ac tristique. Nunc nisl tellus, porta eget eros at, rutrum tempor magna. Etiam ut elementum velit. Morbi auctor elit vel lacinia accumsan.',
+                                                                    style: { 'font-family':'Open Sans'},
+                                                                    },
+
+                                                                ]
+                                        
+                                        
+                                                     }, 
+
+                                                      { 
+
+                                                    type:'default', 
+                                                    droppable: true,
+                                                    editable: true,
+                                                    name:'col1',
+                                                    style: { 'font-family':'Open Sans', padding:'20px 20px', display:'flex','flex-direction':'column',cursor:'arrow',height:'100%','width':'33%', float:'left'},
+                                                    components: [{  name:'image', type:'image', 
+                                                                    attributes: { src: 'buildericons/imgplaceholder.svg' },
+                                                                    style: { 'width':'100%', 'height':'100%', display:'block', 'margin-bottom':'20px'},
+                                                                    },
+
+                                                                    {  
+                                                                    name:'headline', type:'text', 
+                                                                    tagname:'h1',
+                                                                    content:'Your cool feature here',
+                                                                    style: { 'font-family':'Open Sans', 'font-size':'20px', 'font-weight':'600', 'margin-bottom':'10px',},
+                                                                    }, 
+
+                                                                    {  
+                                                                    name:'text', type:'text', 
+                                                                    tagname:'p',
+                                                                    content:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus laoreet odio ac tristique. Nunc nisl tellus, porta eget eros at, rutrum tempor magna. Etiam ut elementum velit. Morbi auctor elit vel lacinia accumsan.',
+                                                                    style: { 'font-family':'Open Sans'},
+                                                                    },
+
+                                                                ]
+                                        
+                                        
+                                                     }, 
+
+                                                    {   
+                                                        type:'default',
+                                                        droppable: true,
+                                                        editable: true,
+                                                        name:'col2',
+                                                        style: { 'font-family':'Open Sans', padding:'20px 20px', display:'flex','flex-direction':'column',cursor:'arrow',height:'100%','width':'33%', float:'left'},
+                                                        components: [{  name:'image', type:'image', 
+                                                                        attributes: { src: 'buildericons/imgplaceholder.svg' },
+                                                                        style: { 'width':'100%', 'height':'100%', display:'block', 'margin-bottom':'20px'},
+                                                                        },
+
+                                                                        {  
+                                                                        name:'headline', type:'text', 
+                                                                        tagname:'h1',
+                                                                        content:'Your cool feature here',
+                                                                        style: { 'font-family':'Open Sans', 'font-size':'20px', 'font-weight':'600', 'margin-bottom':'10px',},
+                                                                        }, 
+
+                                                                        {  
+                                                                        name:'text', type:'text', 
+                                                                        tagname:'p',
+                                                                        content:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus laoreet odio ac tristique. Nunc nisl tellus, porta eget eros at, rutrum tempor magna. Etiam ut elementum velit. Morbi auctor elit vel lacinia accumsan.',
+                                                                        style: { 'font-family':'Open Sans'},
+                                                                        },
+
+                                                                    ]                                                                 
+                                                    }
+                                                    ],
+                                    },],
+                                },
+                    
+             });
+
+
+editor.BlockManager.add('37colrow', {
+            name:'37colrow',
+            label: '2 Columns 3/7',
+            media: '<img src="buildericons/2col37.svg"/>',
+            category: 'Basic',
+            style: { order:'2'},
+            content: {  type: 'default',
+                        name:'content wrap',
+                        style: { display:'flex', padding:'20px 20px', 'min-height':'100px','height':'100%','max-width':'100%','width':'100%'},
+
+                        components: [{ type: 'default',
+                                        name:'content',
+                                        style: { display:'flex', padding:'20px 20px', 'min-height':'100px','max-width':'1200px','margin':'0 auto' },
+                                        droppable: true,
+                                        editable: true,
+                                        components: [ { 
+
+                                                    type:'default', 
+                                                    droppable: true,
+                                                    editable: true,
+                                                    name:'col1',
+                                                    style: { 'font-family':'Open Sans', padding:'20px 20px', display:'flex','flex-direction':'column',cursor:'arrow',height:'100%','width':'30%', float:'left'},
+                                                    components: [{  name:'image', type:'image', 
+                                                                    attributes: { src: 'buildericons/imgplaceholder.svg' },
+                                                                    style: { 'width':'100%', 'height':'100%', display:'block'},
+                                                                    }
+                                                                ]
+                                        
+                                        
+                                                     }, 
+
+                                                    {   
+                                                        type:'default',
+                                                        droppable: true,
+                                                        editable: true,
+                                                        name:'col2',
+                                                        style: { 'font-family':'Open Sans', padding:'20px 20px', display:'flex','flex-direction':'column',cursor:'arrow',height:'100%','width':'70%', float:'left'},
+                                                        components: [{  name:'headline', type:'text', 
+                                                                        tagname:'h1',
+                                                                        content:'Your cool feature here',
+                                                                        style: { 'font-family':'Open Sans', 'font-size':'20px', 'font-weight':'600', 'margin-bottom':'10px',},
+                                                                        }, 
+
+                                                                        {  
+                                                                        name:'text', type:'text', 
+                                                                        tagname:'p',
+                                                                        content:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus laoreet odio ac tristique. Nunc nisl tellus, porta eget eros at, rutrum tempor magna. Etiam ut elementum velit. Morbi auctor elit vel lacinia accumsan.',
+                                                                        style: { 'font-family':'Open Sans', 'margin-bottom':'20px'},
+                                                                        },
+
+                                                                        {  
+                                                                        name:'text', type:'text', 
+                                                                        tagname:'p',
+                                                                        content:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus laoreet odio ac tristique. Nunc nisl tellus, porta eget eros at, rutrum tempor magna. Etiam ut elementum velit. Morbi auctor elit vel lacinia accumsan.',
+                                                                        style: { 'font-family':'Open Sans'},
+                                                                        }
+
+                                                                    ]                                                                 
+                                                    }
+                                                    ],
+                                    },],
+                                },
+                    
+             });
+
+
+
+         editor.DomComponents.addType('default', {
+            model: {
+
+                defaults: {
+                    style:{
+                        display:'block',
+                      padding:'5px 20px',
+                      cursor:'arrow',
+                      'min-height':'70px',
+                      
+                      },
+                  },
+            },
+        });
+
+
+
+        editor.DomComponents.addType('text-block', {
+            model: {
+                defaults: {
+                    style:{
+                      color:'#3c3a4e',
+                      'font-family':'Open sans',
+                      display:'inline-block',
+                      padding:'20px'
+                    },
+                    content: 'New default content',
+                },
+            },
+        });
+
+                editor.DomComponents.addType('button', {
+            model: {
+                defaults: {
+                    style:{
+                      color:'#fff',
+                      'max-width':'100%',
+                      padding:'17px 35px',
+                      margin:'5px 20px',
+                      'background-color':'#567af8',
+                      'font-family':'Open Sans',
+                      'font-weight':'600',
+                      border:'0px',
+                      'border-radius':'5px 5px 5px 5px',
+                      display:'block',
+                      'font-size':"17px",
+                      cursor:'pointer',
+                      'text-align':'center'
+                    },
+
+                   text: 'Sign up now',
+
+
+                attributes: {type:'button' },
+
+                },
+            },
+        });
+
+
+                   editor.DomComponents.addType('input', {
+            model: {
+                defaults: {
+                    style:{
+                      color:'#3c3a4e',
+                      width:'100%',
+                      padding:'5px 35px',
+                      'background-color':'#fff',
+                      'font-family':'Open Sans',
+                      'font-weight':'600',
+                      border:'1px solid #cacde9',
+                      'border-radius':'5px 5px 5px 5px',
+                      display:'block',
+                      'font-size':"17px",
+                      cursor:'pointer',
+                      'margin-bottom':'15px'
+                    },
+                  },
+            },
+        });
+
+
+                     editor.DomComponents.addType('label', {
+            model: {
+                defaults: {
+                    style:{
+                      color:'#3c3a4e',
+                      width:'100%',
+                      padding:'5px 10px',
+                      'font-family':'Open Sans',
+                      'font-weight':'700',
+                      display:'block',
+                      'font-size':"15px",
+                      cursor:'arrow',
+                      'margin-bottom':'5px'
+                    },
+                  },
+            },
+        });
+
+
+
+editor.DomComponents.addType('form', {
             isComponent: el => el.tagName === 'FORM',
             model: {
                 init() {

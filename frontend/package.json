@@ -33,6 +33,7 @@
         "grapesjs-blocks-basic": "^1.0.1",
         "grapesjs-component-countdown": "^1.0.1",
         "grapesjs-custom-code": "^1.0.1",
+        "grapesjs-indexeddb": "^1.0.4",
         "grapesjs-navbar": "^1.0.1",
         "grapesjs-plugin-export": "^1.0.11",
         "grapesjs-plugin-forms": "^2.0.5",

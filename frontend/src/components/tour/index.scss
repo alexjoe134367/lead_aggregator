@@ -193,6 +193,20 @@
     padding-bottom:20px;
 }
 
+.button.dark {
+  background: #4d77ff;
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 55px;
+  font-weight: 400 !important;
+  box-shadow: 1px 1px 25px 5px rgba(77, 119, 255, 0.51) !important;
+  outline: none !important;
+  bottom: 15px;
+  right: 15px;
+  border: 3px solid #4d77ff;
+  cursor: pointer;
+  }
+
 
 .shepherd-button.shepherd-button-secondary:after {
       content: "\E5B7";

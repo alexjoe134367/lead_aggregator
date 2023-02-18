@@ -551,10 +551,13 @@ const steps_campaigns = [
     {
       id: "saveagent",
         attachTo: {
-        element: ".ui.teal.left.labeled.button",
+        element: ".actions",
         on: "right"
       },
-       advanceOn: {selector: '.ui.tiny.modal', event: 'DOMAttrModified' },
+       advanceOn: {
+    selector: 'body',
+    event: 'onchange',
+    },
        useModalOverlay:false,
        modalOverlayOpeningPadding:"10",
      title: [

@@ -44,36 +44,44 @@ Class MailService {
         } catch (\Exception $exception) {
             \Log::critical($exception->getMessage());
         }
-        return true;
+        return false;
     }
-    public static function sendUserMail($user, $subject, $content){
+    public static function sendUserMail($lead, $user, $agent, $subject, $content, $own_stmp){
         
-
         // Create the Transport
-        $transport = (new Swift_SmtpTransport($user->mail_host, $user->mail_port))
-        ->setUsername($user->mail_username)
-        ->setPassword($user->mail_password)
-        ;
-        // Sendmail
-        // $transport = new Swift_SendmailTransport('/usr/sbin/sendmail -bs');
-
+        if($own_stmp){
+            $transport = (new Swift_SmtpTransport($user->mail_host, $user->mail_port))
+            ->setUsername($user->mail_username)
+            ->setPassword($user->mail_password);
+        }else{
+            $transport = (new Swift_SmtpTransport(\Config::get('mail.host'), \Config::get('mail.port')))
+            ->setUsername(\Config::get('mail.username'))
+            ->setPassword(\Config::get('mail.password'));
+        }
+        
         // Create the Mailer using your created Transport
         $mailer = new Swift_Mailer($transport);
         
         // Create a message
-        $message = (new Swift_Message($subject))
-        ->setFrom([$user->mail_from_address => 'ConvertLead'])
-        ->setTo([$user->email => $user->name])
-        // ->setTo(['alexjoe134367@gmail.com' => $user->name])
-
-        ->setBody($content);
+        if($own_stmp){
+            $message = (new Swift_Message($subject))
+            ->setFrom([$user->mail_from_address => $agent->name])
+            // ->setTo([$lead->email => $lead->name])
+            ->setTo(['alexjoe134367@gmail.com' => $lead->name])
+            ->setReplyTo($agent->email)
+            ->addPart($content, 'text/html');
+        }else{
+            $message = (new Swift_Message($subject))
+            ->setFrom([\Config::get('mail.from.address') => $agent->name])
+            // ->setTo([$lead->email => $lead->name])
+            ->setTo(['alexjoe134367@gmail.com' => $lead->name])
+            ->setReplyTo($agent->email)
+            ->addPart($content, 'text/html');
+        }
 
         // Send the message
         $result = $mailer->send($message);
         return $result;
-
-
-
     }
     /**
      * Send an error notification
